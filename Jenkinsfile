@@ -2,6 +2,11 @@
 
 pipeline {
     agent any
+    
+    environment {
+        // Keeps Java 17+ from blocking Maven's compiler access
+        MAVEN_OPTS = "--add-opens java.base/java.lang=ALL-UNNAMED --add-opens jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED"
+    }
 
     stages {
         stage('Git Checkout') {
@@ -15,11 +20,26 @@ pipeline {
             }
         }
 
-        stage('Unit Test Maven') {
+        stage('Build') {
             steps {
                 script {
-                    // Changed from mavenTest() to mvnTest()
-                    mvnTest() 
+                    mvnBuild() 
+                }
+            }
+        }
+
+        stage('Unit Test') {
+            steps {
+                script {
+                    mvnTest()
+                }
+            }
+        }
+
+        stage('Integration Test') {
+            steps {
+                script {
+                    mvnIntegrationTest()
                 }
             }
         }
