@@ -18,7 +18,8 @@ pipeline {
         stage('Unit Test Maven') {
             steps {
                 script {
-                    mavenTest()
+                    // Changed from mavenTest() to mvnTest()
+                    mvnTest() 
                 }
             }
         }
