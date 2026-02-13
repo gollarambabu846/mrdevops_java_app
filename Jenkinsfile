@@ -1,3 +1,4 @@
+@Library('my-shared-library')
 pipeline {
     agent any
 
@@ -5,7 +6,11 @@ pipeline {
 
         stage('Git Checkout') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/gollarambabu846/mrdevops_java_app.git'
+            gitCheckout{
+                branch : "main"
+                url: "https://github.com/gollarambabu846/mrdevops_java_app.git"
+              }    
+        
             }
         }
     }
